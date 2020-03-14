@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  server:
+    container_name: orders-api
+    build: '.'
+    environment:
+      PORT: 8081
+      ELASTIC: db
+      USERS_HOST: 172.17.0.1
+      NODE_ENV: development
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - '8081:8081'
+    restart: always  
+
+  db:
+    image: 'docker.elastic.co/elasticsearch/elasticsearch:7.2.0'
+    container_name: elasticsearch
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+      - discovery.type=single-node
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    restart: always

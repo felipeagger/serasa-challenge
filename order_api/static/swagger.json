@@ -1,0 +1,294 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Orders API",
+    "description": "Micro-Service for Orders using Flask",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:8081",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Orders",
+      "description": "API for Orders in the system"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+
+  "paths": {
+    "/orders": {      
+
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Get all orders in system",
+        "responses": {
+          "200": {
+            "description": "Success!",
+            "schema": {
+              "$ref": "#/definitions/Orders"
+            }
+          },
+          "204": {
+            "description": "No orders found!"
+          },
+          "500": {
+            "description": "Internal Server Error!"
+          }
+        }
+      },    
+
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Create new Order in System",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+		"parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Data of order we want Create",
+            "schema": {
+              "$ref": "#/definitions/OrderInsert"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success!",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error!"
+          }
+        }
+      }
+    },
+    
+
+    "/orders/{orderId}": {
+      "parameters": [
+        {
+          "name": "orderId",
+          "in": "path",
+          "required": true,
+          "description": "ID of order that we want",
+          "type": "string"
+        }
+      ],
+
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Get order with given ID",
+        "responses": {
+          "200": {
+            "description": "Order is found!",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          },
+          "404": {
+            "description": "Order not found!"
+          },
+          "500": {
+            "description": "Internal Server Error!"
+          }
+        }
+      },
+
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Update order by ID",
+		"consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+		"parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Data of order we want Update",
+            "schema": {
+              "$ref": "#/definitions/OrderInsert"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order Updated!"
+          },
+          "404": {
+            "description": "Order not found!"
+          },
+          "500": {
+            "description": "Internal Server Error!"
+          }
+        }
+      },
+
+      "delete": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Delete order by ID",
+        "responses": {
+          "200": {
+            "description": "Order Deleted!"
+          },
+          "404": {
+            "description": "Order not found!"
+          },
+          "500": {
+            "description": "Internal Server Error!"
+          }
+        }
+      }
+
+    },
+
+    "/orders/user/{userId}": {
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "description": "ID of user that we want",
+          "type": "string"
+        }
+      ],
+
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Get order by User ID",
+        "responses": {
+          "200": {
+            "description": "Order is found!",
+            "schema": {
+              "$ref": "#/definitions/Orders"
+            }
+          },
+          "404": {
+            "description": "Orders not found!"
+          },
+          "500": {
+            "description": "Internal Server Error!"
+          }
+        }
+      }
+
+    }
+    
+  },
+
+  "definitions": {
+
+    "Order": {
+      "required": [        
+        "user_id",
+        "item_description"
+      ],
+
+      "properties": {
+        "id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "user_id": {
+          "type": "integer"
+        },
+        "user_name": {
+          "type": "string"
+        },
+        "user_cpf": {
+          "type": "string"
+        },
+        "user_email": {
+          "type": "string"
+        },
+        "user_phone_number": {
+          "type": "string"
+        },
+        "item_description": {
+          "type": "string"
+        },
+        "item_quantity": {
+          "type": "number"
+        },
+        "item_price": {
+          "type": "number"
+        },
+        "total_value": {
+          "type": "number"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+        
+      }
+    },
+
+    "Orders": {
+      "type": "array",
+	  "items": {
+        "$ref": "#/definitions/Order"
+      } 
+    },
+	
+    "OrderInsert": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+		"user_id": {
+          "type": "integer"
+        },
+        "item_description": {
+          "type": "string"
+        },
+        "item_quantity": {
+          "type": "number"
+        },
+        "item_price": {
+          "type": "number"
+        },
+        "total_value": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

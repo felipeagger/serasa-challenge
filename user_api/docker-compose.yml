@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  server:
+    container_name: users-api
+    build: '.'
+    environment:
+      PORT: 8080
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWD: toor
+      CACHE: cache
+      FLASK_ENV: development
+    depends_on:
+      - db
+      - cache
+    links:
+      - db
+      - cache
+    ports:
+      - '8080:8080'
+    restart: always  
+
+  db:
+    image: 'mysql:5.6'
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_USER: sysdba
+      MYSQL_PASSWORD: toor
+      MYSQL_DATABASE: db_users
+    ports:
+      - '3306:3306'
+    restart: always
+
+  cache:
+    image: 'memcached'
+    container_name: memcached
+    environment:
+      - MEMCACHED_CACHE_SIZE=128
+    ports:
+      - '11211:11211'
+    restart: always
+
+

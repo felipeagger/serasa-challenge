@@ -1,0 +1,231 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Users API",
+    "description": "Micro-Service for Users using Flask",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for Users in the system"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get all users in system",
+        "responses": {
+          "200": {
+            "description": "Success!",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "204": {
+            "description": "No users found!"
+          },
+          "500": {
+            "description": "Internal Server Error!"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create new User in System",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "Data of user we want Create",
+            "schema": {
+              "$ref": "#/definitions/UserInsert"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success!",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "User already exists!"
+          },
+          "500": {
+            "description": "Internal Server Error!"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "description": "ID of user that we want",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user with given ID",
+        "responses": {
+          "200": {
+            "description": "User is found!",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "User not found!"
+          },
+          "500": {
+            "description": "Internal Server Error!"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update user by ID",
+		"consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+		"parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Data of user we want Create",
+            "schema": {
+              "$ref": "#/definitions/UserInsert"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Updated!"
+          },
+          "404": {
+            "description": "User not found!"
+          },
+          "500": {
+            "description": "Internal Server Error!"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete user by ID",
+        "responses": {
+          "200": {
+            "description": "User Deleted!"
+          },
+          "404": {
+            "description": "User not found!"
+          },
+          "500": {
+            "description": "Internal Server Error!"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "cpf": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Users": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/User"
+      }
+    },
+    "UserInsert": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "cpf": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
