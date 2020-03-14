@@ -59,9 +59,9 @@ Pontos que consideramos um bônus:
 
 ---
 
-Resultado:
+# Resultado:
 
-#Dois Microserviços que comunicam entre si, Persistindo os Dados, em Bancos Relacionais e Nao Relacionais.
+Dois Microserviços que comunicam entre si, Persistindo os Dados, em Bancos Relacionais e Nao Relacionais.
 
 O primeiro é um serviço de cadastro de usuários, contendo os seguintes recursos:
 Listar, exibir, criar, alterar e excluir usuários.
